@@ -1,24 +1,3 @@
-# import numpy as np
-# import matplotlib.pyplot as plt
-
-# # Parameters
-# num_points = 1000
-# np.random.seed(42)
-
-# # Generate random points
-# class_1 = np.random.randn(num_points // 2, 2) + [2, 2]
-# class_2 = np.random.randn(num_points // 2, 2) + [-2, -2]
-
-# # Combine the points
-# data = np.vstack((class_1, class_2))
-# labels = np.hstack((np.zeros(num_points // 2), np.ones(num_points // 2)))
-
-# # Plot the dataset
-# plt.scatter(data[:, 0], data[:, 1], c=labels, cmap='bwr', edgecolors='k')
-# plt.xlabel('Feature 1')
-# plt.ylabel('Feature 2')
-# plt.title('Linearly Separable Dataset')
-# plt.show()
 import matplotlib.pyplot as plt
 from sklearn import datasets
 import numpy as np
