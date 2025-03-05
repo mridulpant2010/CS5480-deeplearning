@@ -78,3 +78,138 @@ data = [trace1]
 layout = go.Layout(height=500, width=600, title= "Digit: "+str(digits[0][2]) + " in 3D space")
 fig = go.Figure(data=data, layout=layout)
 iplot(fig)
+
+
+import numpy as np
+def sigmoid(X, weights, bias):
+    z = X.dot(weights) + bias
+    return 1 / (1 + np.exp(-z))
+
+
+def gradient_descent_learning(X, y, weights, bias, eta=0.01, n_iter=1000):
+    m = X.shape[0]  # Number of samples
+    for _ in range(n_iter):
+        predictions = sigmoid(X, weights, bias)
+        errors = predictions - y
+        gd_weights = X.T.dot(errors) / m
+        gd_bias = np.sum(errors) / m
+
+        weights -= eta * gd_weights
+        bias -= eta * gd_bias
+
+    return weights, bias
+
+
+def cross_entropy_loss(X, y, weights, bias):
+    m = len(y)
+    h = sigmoid(X, weights, bias)
+    cost = (1 / m) * (-y.T.dot(np.log(h)) - (1 - y).T.dot(np.log(1 - h)))
+    return cost
+
+
+import numpy as np
+
+class Conv3D:
+    def __init__(self, num_filters, filter_size):
+        self.num_filters = num_filters
+        self.filter_size = filter_size
+        self.filters = np.random.randn(num_filters, filter_size, filter_size, filter_size) / (filter_size ** 1.5)
+        self.bias = np.zeros((num_filters, 1))
+
+    def forward(self, input):
+        self.input = input
+        self.output = np.zeros((input.shape[0] - self.filter_size + 1,
+                                input.shape[1] - self.filter_size + 1,
+                                input.shape[2] - self.filter_size + 1,
+                                self.num_filters))
+        for i in range(self.output.shape[0]):
+            for j in range(self.output.shape[1]):
+                for k in range(self.output.shape[2]):
+                    input_slice = input[i:i+self.filter_size, j:j+self.filter_size, k:k+self.filter_size]
+                    for f in range(self.num_filters):
+                        self.output[i, j, k, f] = np.sum(input_slice * self.filters[f]) + self.bias[f]
+        return self.output
+
+class MaxPool3D:
+    def __init__(self, pool_size, stride):
+        self.pool_size = pool_size
+        self.stride = stride
+
+    def forward(self, input):
+        self.input = input
+        self.output = np.zeros((
+            (input.shape[0] - self.pool_size) // self.stride + 1,
+            (input.shape[1] - self.pool_size) // self.stride + 1,
+            (input.shape[2] - self.pool_size) // self.stride + 1,
+            input.shape[3]
+        ))
+        for i in range(0, self.output.shape[0], self.stride):
+            for j in range(0, self.output.shape[1], self.stride):
+                for k in range(0, self.output.shape[2], self.stride):
+                    self.output[i//self.stride, j//self.stride, k//self.stride] = np.max(
+                        input[i:i+self.pool_size, j:j+self.pool_size, k:k+self.pool_size], axis=(0,1,2)
+                    )
+        return self.output
+
+class GlobalAvgPool3D:
+    def forward(self, input):
+        return np.mean(input, axis=(0,1,2))
+
+class Dense:
+    def __init__(self, input_size, output_size):
+        self.weights = np.random.randn(output_size, input_size) / np.sqrt(input_size)
+        self.bias = np.zeros((output_size, 1))
+
+    def forward(self, input):
+        self.input = input
+        return np.dot(self.weights, input) + self.bias
+
+def relu(x):
+    return np.maximum(0, x)
+
+def softmax(x):
+    exp_x = np.exp(x - np.max(x))
+    return exp_x / exp_x.sum(axis=0)
+
+class CNN3D:
+    def __init__(self):
+        self.conv1 = Conv3D(16, 5)
+        self.pool1 = MaxPool3D(2, 2)
+        self.conv2 = Conv3D(32, 3)
+        self.pool2 = MaxPool3D(2, 2)
+        self.gap = GlobalAvgPool3D()
+        self.fc1 = Dense(32, 64)
+        self.fc2 = Dense(64, 10)
+
+    def forward(self, x):
+        x = self.conv1.forward(x)
+        x = relu(x)
+        x = self.pool1.forward(x)
+        x = self.conv2.forward(x)
+        x = relu(x)
+        x = self.pool2.forward(x)
+        x = self.gap.forward(x)
+        x = self.fc1.forward(x)
+        x = relu(x)
+        x = self.fc2.forward(x)
+        return softmax(x)
+
+# Create and use the model
+model = CNN3D()
+input_data = np.random.randn(28, 28, 28, 1)  # Example input
+output = model.forward(input_data)
+print(output)
+
+import numpy as np
+## Introduce the channel dimention in the input dataset 
+xtrain = np.ndarray((X_train.shape[0], 4096, 1))
+xtest = np.ndarray((X_test.shape[0], 4096, 1))
+xtrain.shape
+## convert to 1 + 4D space (1st argument represents number of rows in the dataset)
+xtrain = xtrain.reshape(X_train.shape[0], 16, 16, 16, 1)
+xtest = xtest.reshape(X_test.shape[0], 16, 16, 16, 1)
+xtrain.shape
+# what is the size of the input tensor?
+input_volume = xtrain[0]
+
+
