@@ -1,0 +1,7 @@
+kagglehub 
+plotly 
+h5py 
+nbformat>=4.2.0 
+seaborn
+torch
+numpy
