@@ -10,6 +10,12 @@ print("tensor of the zeroes, ",tensor2)
 tensor3 = torch.rand(2,3)
 print("tensor of the random numbers, ",tensor3)
 
+
+m = nn.Linear(20, 30) 
+input = torch.randn(128, 20)
+output = m(input)
+# in this code nn.Linear is instantiated and m object is created.
+# then why do m is instantiated, what is this phenomena in python called.
 class SimpleNN(nn.Module):
     def __init__(self):
         super(SimpleNN,self).__init__()
