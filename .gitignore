@@ -1,4 +1,17 @@
+# Ignore all `.log` files
+*.log  
+
+# Ignore specific folder
+/node_modules/  
+
+# Ignore compiled Python files
+__pycache__/  
+
+# Ignore environment files
+.env  
+
+
 ./bootcamp_practice/data/
-deep_learning\bootcamp_practice\data\MNIST
-deep_learning\assignment\experiments
-deep_learning\assignment\data
+deep_learning/bootcamp_practice/data/MNIST
+deep_learning/assignment/experiments
+deep_learning/assignment/data

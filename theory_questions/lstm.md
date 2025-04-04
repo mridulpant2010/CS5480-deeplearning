@@ -12,7 +12,8 @@
    - *(Answer: Four gates—input gate, forget gate, output gate, and cell candidate gate.)*
 
 4. **Which activation functions are used in LSTM gates?**
-   - *(Answer: Sigmoid (σ) and tanh.)*
+   - *(Answer: Sigmoid (σ) and tanh.)* sigmoid ranges in b/w (0,1) and tanh ranges in (-1,1)
+   - can we use ReLU in the LSTM? no 
 
 5. **What is the role of the forget gate in an LSTM?**
    - *(Answer: Decides what information to discard from the previous cell state.)*
@@ -78,6 +79,7 @@
 
 3. **If your sequence length becomes very large (e.g., thousands of time steps), what practical issues might arise with this implementation, and how could you address them?**
    - *(Answer: Issues include memory usage problems and vanishing/exploding gradients; solutions include truncated backpropagation through time (TBPTT), gradient clipping, or attention mechanisms.)*
+   - memory usage problem
 
 4. **How would you modify this CustomLSTM implementation to support multiple stacked LSTM layers (multi-layered)? Explain briefly with pseudocode or steps clearly outlined.**
    - *(Answer: You'd instantiate multiple layers of CustomLSTM cells sequentially feeding outputs from one layer as inputs to next; manage hidden/cell states separately per layer.)*
@@ -100,8 +102,3 @@
 10. **How would you adapt your CustomLSTM model if inputs were continuous numerical vectors instead of discrete token indices requiring embeddings—what specific changes would be necessary within your existing forward method/code structure clearly stated step-by-step explicitly here?**
     - *(Answer: Remove embedding layer entirely; directly feed numerical input vectors into gate computations replacing embedded inputs directly with continuous numerical vectors at each timestep computation inside forward loop.)* 
 
----
-
-These structured questions progressively test basic understanding (easy), deeper conceptual comprehension (medium), and practical problem-solving/application skills (hard), providing comprehensive preparation for viva sessions related specifically to your CustomLSTM implementation code provided above!
-
----
