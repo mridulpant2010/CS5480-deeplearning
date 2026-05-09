@@ -11,7 +11,14 @@ __pycache__/
 .env  
 
 
-./bootcamp_practice/data/
-deep_learning/bootcamp_practice/data/MNIST
-deep_learning/assignment/experiments
-deep_learning/assignment/data
+bootcamp_practice/data/
+bootcamp_practice/data/MNIST
+assignment/experiments/
+assignment/data/
+computer_vision/asssignment3/yolov8n.pt
+computer_vision/asssignment3/penn_fudan.yaml
+computer_vision/asssignment3/best_horse_model.pth
+computer_vision/asssignment3/yolo_data/
+computer_vision/asssignment3/checkpoints/
+computer_vision/asssignment3/horse/
+computer_vision/asssignment3/PennFudanPed/
